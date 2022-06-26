@@ -1,0 +1,31 @@
+Package: manuscript
+Title: Manuscript title
+Version: 0.1
+Authors@R: 
+    person(given = "Dylan",
+           family = "Russell",
+           role = c("aut", "cre"),
+           email = "dyl.russell@gmail.com",
+           comment = c(ORCID = "0000-0002-9543-9897"))
+Description: My manuscript description.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+VignetteBuilder: knitr
+Depends: 
+    R (>= 2.10)
+Imports: 
+    rlang,
+    magrittr,
+    dplyr
+Suggests:
+    rmarkdown
+    knitr,
+    glue,
+    distill,
+    bookdown,
+    labelled,
+    distill,
+    trackdown

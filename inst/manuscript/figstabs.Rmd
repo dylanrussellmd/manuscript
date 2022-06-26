@@ -1,0 +1,91 @@
+```{r prematch-balance-tab-prep}
+# This hack is necessary to prevent Word from printing the comments associated with `print`. 
+# TODO: figure out a better way.
+prematchbalance_tab <- tab_prematchbalance %>%
+   print(test = FALSE, smd = TRUE, varLabels = TRUE, explain = FALSE)
+```
+
+```{r prematch-balance-tab, include = TRUE}
+# Render pre-match balance assessment table.
+# If a Word document
+if(knitr::opts_knit$get("rmarkdown.pandoc.to") == "docx") {
+  knitr::kable(prematchbalance_tab, format = "simple", caption = "Pre-match balance assessment")
+} else {
+  options(knitr.kable.NA = '')
+  tableone::kableone(prematchbalance_tab, 
+                     caption = "Pre-match balance assessment") %>%
+    kableExtra::kable_paper("hover", full_width = F)
+}
+
+```
+
+```{r match-balance-fig, include = TRUE, fig.cap="Pre- and post-match balance assessment"}
+# Extract the SMD data from the pre- and post-match balance tables
+dataPlot <- data.frame(variable  = rownames(tableone::ExtractSmd(tab_prematchbalance)),
+                       Unmatched = tableone::ExtractSmd(tab_prematchbalance)[,1],
+                       Matched   = tableone::ExtractSmd(tab_postmatchbalance)[,1])
+
+dataPlotMelt <- reshape2::melt(data          = dataPlot,
+                              id.vars       = "variable",
+                              variable.name = "method",
+                              value.name    = "SMD")
+
+## Variables names ordered by pre-match SMD values
+varsOrderedBySmd <- rownames(dataPlot)[order(dataPlot[,"Unmatched"])]
+
+## Reorder factor levels
+dataPlotMelt$variable <- factor(dataPlotMelt$variable,
+                                levels = varsOrderedBySmd)
+dataPlotMelt$method <- factor(dataPlotMelt$method,
+                              levels = c("Matched","Unmatched"))
+## Plot the balance graph
+ggplot(data = dataPlotMelt, mapping = aes(x = variable, y = SMD, group = method, linetype = method)) +
+    geom_line() +
+    geom_point() +
+    geom_hline(yintercept = 0, size = 0.3) +
+    geom_hline(yintercept = 0.1, size = 0.1) +
+    coord_flip() +
+    theme_bw() + theme(legend.key = element_blank(),
+                       legend.title = element_blank(),
+                       axis.title.y = element_blank()) +
+    scale_x_discrete(labels=c("age" = "Age",
+                              "asaclas" = "ASA class",
+                              "wtloss" = "Weight loss",
+                              "hxcopd" = "COPD",
+                              "fnstatus2" = "Independent",
+                              "sex" = "Male",
+                              "transfus" = "Transfusion",
+                              "steroid" = "Steroid use",
+                              "bleeddis" = "Bleeding disorder",
+                              "smoke" = "Smoking history"))
+```
+
+```{r postmatch-outcomes-discrete-tab, include = TRUE}
+# Render post-match discrete outcomes table
+# If a Word document
+if(knitr::opts_knit$get("rmarkdown.pandoc.to") == "docx") {
+   postmatch_discrete %>%
+      knitr::kable(caption = "Post-match discrete outcomes",
+                   format = "simple")
+} else {
+  options(knitr.kable.NA = '')
+  postmatch_discrete %>%
+    knitr::kable(caption = "Post-match discrete outcomes") %>%
+    kableExtra::kable_paper("hover", full_width = F)
+}
+```
+
+```{r postmatch-outcomes-continuous-tab, include = TRUE}
+# Render post-match continuous outcomes table
+# If a Word document
+if(knitr::opts_knit$get("rmarkdown.pandoc.to") == "docx") {
+  postmatch_continuous %>%
+    knitr::kable(caption = "Post-match continuous outcomes",
+                 format = "simple")
+} else {
+  options(knitr.kable.NA = '')
+  postmatch_continuous %>%
+    knitr::kable(caption = "Post-match continuous outcomes") %>%
+    kableExtra::kable_paper("hover", full_width = F)
+}
+```

@@ -1,0 +1,119 @@
+---
+title: Should diverticulitis be considered a qualifying weight related comorbidity for bariatric surgery?
+author:
+      
+    - first_name: "Justin LaRocque, M.D., PharmD."
+      affiliation: Tripler Army Medical Center
+    - name: "Dylan Russell, M.D."
+      url: https://www.github.com/dylanrussellmd
+      affiliation: Tripler Army Medical Center
+      orcid_id: 0000-0002-9543-9897
+    - name: "Scott H. Nguyen, M.D."
+      affiliation: Tripler Army Medical Center
+    - name: "Christopher Yheulon, M.D."
+      affiliation: Tripler Army Medical Center, Emory University
+      orcid_id: 0000-0002-9087-8268
+date: |
+  | "`r format(Sys.time(), '%B %d, %Y')`"
+output:
+  distill::distill_article:
+    toc: true
+    toc_depth: 1
+    default: true
+  bookdown::word_document2:
+    reference_docx: "reference.docx"
+    number_sections: false
+bibliography: bibliography.bib
+csl: surgical-endoscopy.csl
+---
+
+```{r preamble, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  echo = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  include = FALSE
+)
+```
+
+```{r libraries}
+library(nsqipDiverticulitis)
+library(magrittr)
+library(kableExtra)
+library(ggplot2)
+```
+
+```{r results, child='results.Rmd'}
+# Run the results code, written separately to keep code logic out of manuscript.
+```
+
+# Abstract {.unlisted .unnumbered}
+
+**Introduction**: With rising obesity rates, surgeons are operating on increasingly larger patients. Minimally invasive surgery has helped ease this burden on surgeons. However, we are still quantifying the impact of weight on surgical outcomes. The purpose of this study is to determine the role of obesity in elective laparoscopic colectomy for colonic diverticulitis.
+
+**Methods**: The American College of Surgeons National Surgical Quality Improvement Program (ACS-NSQIP) and colectomy targeted procedure databases were queried from 2012-2019, examining patients undergoing elective, minimally invasive partial colectomy with or without primary anastomosis for an indication of diverticulitis. Patients with a BMI under 30 (non-obese) were compared to patients with a BMI between 35-40 (obese). The groups were propensity score matched for pre-operative and intra-operative variables.
+
+**Results**: `r nrow(data)` patients were identified with `r prematch_control_n` non-obese patients and `r prematch_obese_n` obese patients. The groups' average BMIs were `r prematch_control_bmisd` and `r prematch_obese_bmisd`, respectively. There were no significant differences between the two groups after a 2:1 propensity score match. In obese patients, there were higher rates of conversion to open (`r postmatch_convtoopen`), operative time (`r postmatch_optime`), and readmission (`r postmatch_readm`). The leak rate was `r postmatch_obese_leak` for obese patients and `r postmatch_control_leak` for non-obese patients, though this was not statistically significant (p = `r postmatch_leak_p`).
+
+**Conclusion**: Obese patients undergoing elective laparoscopic colectomies for diverticulitis suffer from increased rates of conversion to open, operative time, and readmission. Diverticulitis should be strongly considered for inclusion as a qualifying weight related comorbidity for bariatric surgery as significant weight loss prior to diverticulitis surgery improves outcomes.
+
+# Introduction
+
+Diverticulitis is an increasingly common clinical entity encountered in surgical practice, both in the inpatient and outpatient settings [@strate2019epidemiology; @weizman2011diverticular; @munie2018epidemiology]. The disease accounts for approximately 200,000 annual hospital admissions, almost one million total hospital days and two billion dollars in aggregate costs to the healthcare system [@mennini2017economic; @hawkins2020diverticulitis]. It affects predominantly the sigmoid colon in Western nations and its incidence is growing, with growth occurring among younger age groups. This shift in demographical disease burden results in an out-sized impact on societal productivity loss, economic impact, morbidity and mortality [@strate2019epidemiology; @munie2018epidemiology; @lee2018aging; @hall2020american].
+
+Management of diverticulitis was classically based on number of symptomatic disease flares. Treatment was primarily supportive; bowel rest and antibiotics being the pillars of accepted dogma [@chabok2012randomized]. After a set number of episodes, patients were counseled to undergo open or laparoscopic colectomy after resolution of acute inflammation [@weizman2011diverticular; @pfuetzer2015management].
+
+This treatment paradigm has started to shift. New data and recent clinical guidelines no longer recommend surgery after a prescribed number of episodes [@floch2006management; @janes2005elective]. Current recommendations are pragmatically more patient centered, with surgery contingent on the patient's perceived impact of the disease on their quality of life. Furthermore, patients with uncomplicated diverticulitis are now being treated on an outpatient basis and without need for antibiotics. This shift has further pushed the management of diverticular disease towards a truly elective surgical intervention.
+
+There is growing evidence linking obesity to diverticulosis, severity and complications related to diverticular disease, and worse outcomes after surgery [@bohm2021excessive; @strate2009obesity; @patel2020diverticulitis; @docimo2017visceral; @wu2016differential; @patel2022impact; @bailey2013morbid; @jehan2020metabolic]. However, diverticular disease is not considered a weight related comorbidity to qualify for bariatric surgery [@cdc_2022; @asmbs_2021; @mari2022impact]. Therefore, we aim to explore the rates of adverse surgical outcomes in obese patients compared to matched non-obese patients. We hypothesize that that bariatric surgery prior to colectomy could be a reasonable risk reduction strategy.
+
+# Methods
+
+## Data Source and Study Population
+
+Data was obtained from the American College of Surgeons National Surgical Quality Improvement Program (ACS-NSQIP) targeted colectomy database. As the ACS-NSQIP database is de-identified and publicly available, institutional review board approval was not required. The database was queried for patients with a body mass index (BMI) less than 30 (non-obese) or between 35-40 (obese) undergoing elective, non-emergent, minimally invasive partial colectomy with or without primary anastomosis for an indication of diverticular disease from 2012-2019. Included CPT codes were 44140, 44141, 44143-44146, 44204, and 44206-44208. Patients with a BMI over 40 were excluded as these patients would have already met criteria for bariatric surgery. Patients with diabetes, ascites, a history of congestive heart failure or myocardial infarction, and hypertension requiring medical management were excluded as these would be considered a weight related comorbidity that would meet criteria for bariatric surgery. Patients with disseminated cancer, ventilator support, pre-operative sepsis, Association of Anesthesia classification 5, or incomplete data were also excluded.
+
+## Outcomes
+
+The outcomes of interest included anastomotic leak, conversion to open, colostomy or ileostomy construction, overall surgical site infections (SSI), superficial SSI, deep SSI, organ-space SSI, readmission, reoperation, operative time, and length of stay.
+
+## Statistical Analysis
+
+Computations were performed with `r R.version.string` [@rcoreteam]. A 2:1 propensity scored nearest neighbor match was performed. Patients with a BMI less than 30 were matched against patients with a BMI between 35 and 40. Patients were matched for age, sex, smoking status, functional status, history of COPD, history of steroid use, pre-operative weight loss \>10%, bleeding disorders, and ASA class. A covariate balance assessment was performed using the standardized mean difference (SMD) with an SMD \> 0.1 considered unbalanced. A post-weighting balance assessment was performed to ensure an optimal balance. Outcomes were compared both before and after matching. Binomial outcomes were reported as rates and hypothesis testing conducted with a standard test for binomial proportions. Continuous outcomes were reported as means with hypothesis testing conducted with a two-sample t-test. A p-value of 0.05 or less was considered significant.
+
+# Results
+
+A total of `r nrow(data)` patients were identified as meeting inclusion criteria. There were `r prematch_control_n` non-obese patients and `r prematch_obese_n` obese patients (see table \@ref(tab:prematch-balance-tab)). The groups’ average BMIs were `r prematch_control_bmisd` and `r prematch_obese_bmisd`, respectively. There were no significant differences between the two groups after propensity score matching (see figure \@ref(fig:match-balance-fig)); `r postmatch_control_n` non-obese patients and `r postmatch_obese_n` obese patients were included for analysis.  Obese patients had higher rates of conversion to open (`r postmatch_convtoopen`), longer operative times (`r postmatch_optime`), and readmission (`r postmatch_readm`). The leak rate was `r postmatch_obese_leak` for obese patients and `r postmatch_control_leak` for non-obese patients, though this was not statistically significant (p = `r postmatch_leak_p`). There was no difference between groups in the incidence of surgical site infections (see table \@ref(tab:postmatch-outcomes-discrete-tab)) or length of stay (see table \@ref(tab:postmatch-outcomes-continuous-tab)).
+
+```{r figstabs, child='figstabs.Rmd'}
+# Run the figures and tables code, written separately to keep code logic out of manuscript.
+```
+
+# Discussion
+
+Increasing prevalence of diverticulitis and obesity are significant drivers of increasing societal disease burden and healthcare costs. Elective surgical management of these diseases significantly improves patient quality of life and overall health [@santos2021comparing]. Laparoscopic colectomy, sleeve gastrectomy, and Roux-en-Y gastric bypass are typically well tolerated and have well established Enhanced Recovery After Surgery (ERAS) protocols. This retrospective database study was designed to simulate if patients, who would not otherwise qualify for bariatric surgery, were able to undergo pre-operative bariatric surgery prior to elective colectomy for diverticulitis. The results of this study suggest that significant weight loss which can be achieved from pre-operative bariatric surgery can improve outcomes in subsequent diverticulitis surgery.
+
+Our study demonstrated decreased rates of unplanned conversion to open, shorter operative times, and lower readmission rates in non-obese patients. This suggests minimally invasive surgery is technically easier on non-obese patients [@bastawrous2020incidence; @el2018risk]. Decreased conversion rates significantly reduce the morbidity associated with open surgery [@bastawrous2020incidence; @abd2022trends]. In addition, obese patients with a laparotomy have a 17-35% risk of developing an incisional hernia, which also has a tremendous economic burden on society [@gillion2016economic; @nho2012incidence]. Likewise, shorter operative times and lower readmission rates may translate to a reduction in systemic healthcare costs and an increased quality of life, due to fewer lost workdays.
+
+If a patient undergoes elective colectomy for diverticulitis, it could also create significant small bowel adhesions, particularly with unplanned conversions to open [@dowson2008reduced; @etter2018impact]. Such adhesions could preclude future laparoscopic gastric bypass as a bariatric option [@schwartz2004factors]. This is potentially detrimental for patients with diabetes and/or significant pre-operative gastroesophageal reflux disease (GERD) [@qumseya2021barrett; @purnell2021diabetes]. However, if performed first, adhesions resulting from laparoscopic bariatric surgery are unlikely to impact the ability to complete a colectomy through a minimally invasive approach.
+
+This study has a number of limitations. It is impossible to know if patients in either group previously underwent bariatric surgery. In addition, ACS-NSQIP does not track other qualifying co-morbidities for bariatric surgery including but not limited to obstructive sleep apnea, hyperlipidemia, metabolic syndrome, steatohepatitis, GERD, and stress incontinence. If patients in the obese group had any of these diagnoses, they also would have qualified for bariatric surgery [@buchwald2005consensus; @wolfe2016treatment]. Bariatric surgery also has its own risk profile with 9-12% of patients undergoing re-operation within 5 years [@courcoulas2020interventions]. Therefore, any risk reduction bariatric surgery provides on diverticular disease is not entirely benign. However, bariatric surgery offers many other benefits to include overall mortality reduction, comorbidity resolution, and improved quality of life [@malczak2021quality; @syn2021association].
+
+This study is subject to the inherent biases of retrospective database research. The ACS-NSQIP database - a national, risk-adjusted, quality improvement system containing prospectively collected preoperative, intraoperative and 30-day patient data - has been employed widely in quality improvement initiatives [@khuri1998department; @hall2009does; @rowell2007use]. However, ACS-NSQIP participation is not mandatory and requires both financial inputs and dedicated personnel available for data management. This over-represents larger tertiary treatment centers and potentially omits small bariatric-focused centers or small surgical centers. ACS-NSQIP outcome measures are limited to 30 days and does not report on adverse effects occurring after this time frame.
+
+# Conclusion
+
+Obese patients who undergo elective laparoscopic colectomies for diverticulitis suffer from increased rates of conversion to open, operative time, and readmission. Bariatric surgery for weight loss should be considered prior to colectomy for diverticulitis to improve surgical outcomes in this vulnerable population.
+
+# Disclosures {.unlisted .unnumbered}
+
+The views and opinions expressed in this article are those solely of the authors and in no way reflect the opinions of the United States Government. The authors have no conflicts of interest or relevant financial ties to disclose.
+
+```{r citations, include = TRUE}
+# If Word document output, needs a References section header
+if(knitr::opts_knit$get("rmarkdown.pandoc.to") == "docx") {
+  knitr::asis_output("# References")
+}
+
+```
