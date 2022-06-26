@@ -1,4 +1,13 @@
+# From the gitignore_global.txt (added for redundancy, not strictly necessary)
+.Rprofile
+.Renviron
 .Rproj.user
 .Rhistory
-.RData
+.Rdata
 .Ruserdata
+.httr-oauth
+.DS_Store
+inst/extdata/
+rsconnect/
+
+# Add any additional project-specific ignores here.

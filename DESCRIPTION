@@ -21,7 +21,7 @@ Imports:
     magrittr,
     dplyr
 Suggests:
-    rmarkdown
+    rmarkdown,
     knitr,
     glue,
     distill,
