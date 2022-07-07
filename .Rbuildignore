@@ -9,4 +9,8 @@
 ^\.github$
 ^\.gitignore$
 ^inst/extdata$
+^inst/manuscript/manuscript_cache$
+^inst/manuscript/manuscript_files$
+^inst/manuscript/.trackdown$
 ^vignettes/rsconnect$
+^nsqipViewpoint\.Rproj$
