@@ -11,4 +11,7 @@ inst/extdata/
 rsconnect/
 
 # Add any additional project-specific ignores here.
-
+inst/manuscript/manuscript_cache/
+inst/manuscript/manuscript_files
+inst/manuscript/manuscript.html
+inst/manuscript/manuscript.docx
