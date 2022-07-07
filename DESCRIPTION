@@ -27,5 +27,4 @@ Suggests:
     distill,
     bookdown,
     labelled,
-    distill,
     trackdown
