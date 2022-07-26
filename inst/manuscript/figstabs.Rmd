@@ -1,6 +1,7 @@
-<!-- An example of how to include tables as both Word documents and HTML -->
+<!-- R code to generate figures and tables goes here -->
 
 ```{r a-table, include = TRUE}
+# An example of how to include tables as both Word documents and HTML
 # Remove `eval = FALSE` prior to using this template
 
 # Render post-match discrete outcomes table
