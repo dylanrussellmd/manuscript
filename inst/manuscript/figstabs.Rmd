@@ -4,7 +4,7 @@
 # An example of how to include tables as both Word documents and HTML
 # Remove `eval = FALSE` prior to using this template
 
-# Render post-match discrete outcomes table
+# Render a table
 # If a Word document
 caption = "This is a table."
 
