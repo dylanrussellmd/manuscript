@@ -30,6 +30,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r libraries}
+# Add library(this_package)
 library(manuscriptr)
 library(magrittr)
 library(kableExtra)
