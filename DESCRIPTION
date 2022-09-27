@@ -19,7 +19,8 @@ Depends:
 Imports: 
     rlang,
     magrittr,
-    dplyr
+    dplyr,
+    manuscriptr
 Suggests:
     rmarkdown,
     knitr,
@@ -30,3 +31,4 @@ Suggests:
     trackdown
 Remotes: 
     ClaudioZandonella/trackdown
+    dylanrussellmd/manuscriptr
