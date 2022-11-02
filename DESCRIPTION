@@ -30,5 +30,5 @@ Suggests:
     labelled,
     trackdown
 Remotes: 
-    ClaudioZandonella/trackdown
+    ClaudioZandonella/trackdown,
     dylanrussellmd/manuscriptr
